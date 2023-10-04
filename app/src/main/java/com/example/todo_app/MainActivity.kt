@@ -1,11 +1,13 @@
 package com.example.todo_app
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.data
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo_app.databinding.ActivityMainBinding
 import layout.Task
 import layout.TaskAdapter
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,9 +24,16 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.btnAdd.setOnClickListener{
-            var textToAdd = binding.etAdd.text.toString()
-            taskList.add(Task(textToAdd, "opis", false))
-            adapter.notifyItemInserted(taskList.size - 1)
+            //walidacja daych
+            if (binding.etAdd.text.isEmpty()) {
+                binding.etAdd.hint = "To pole nie może być puste"
+            } else {
+                //add task
+                var textToAdd = binding.etAdd.text.toString()
+                taskList.add(Task(textToAdd, "opis", false))
+                adapter.notifyItemInserted(taskList.size - 1)
+                binding.etAdd.setText("")
+            }
         }
     }
 }
