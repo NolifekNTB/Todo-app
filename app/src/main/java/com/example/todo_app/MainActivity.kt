@@ -3,7 +3,9 @@ package com.example.todo_app
 import android.R.attr.data
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import com.example.todo_app.databinding.ActivityMainBinding
 import layout.Task
 import layout.TaskAdapter
@@ -12,6 +14,7 @@ import layout.TaskAdapter
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var taskList = mutableListOf<Task>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = TaskAdapter(taskList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.itemAnimator = DefaultItemAnimator()
 
         binding.btnAdd.setOnClickListener{
             //walidacja daych
@@ -35,9 +39,6 @@ class MainActivity : AppCompatActivity() {
                 binding.etAdd.setText("")
             }
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
     }
 }
