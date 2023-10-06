@@ -13,14 +13,16 @@ class TaskAdapter(private val tasks: List<Task>) : RecyclerView.Adapter<TaskAdap
     class TaskViewHolder(private val binding: ListItemBinding, private val adapter: TaskAdapter) : RecyclerView.ViewHolder(binding.root) {
         fun bind(task: Task, tasksList: List<Task>) {
             binding.cbTask.text = task.title
+            binding.cbTask.isChecked = task.status
 
             //Checkbox strike through line
             binding.cbTask.setOnCheckedChangeListener { buttonView, isChecked ->
+
+                task.status = isChecked
                 // write here your code for example ...
                 if (isChecked) {
                     binding.cbTask.paintFlags = binding.cbTask.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     adapter.notifyItemMoved(bindingAdapterPosition, tasksList.size-1)
-                    
                 } else {
                     binding.cbTask.paintFlags = binding.cbTask.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 }

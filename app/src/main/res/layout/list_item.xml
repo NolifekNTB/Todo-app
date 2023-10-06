@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Tytuł zadania"
-        />
+        android:text="Tytuł zadania" />
 
     <TextView
         android:id="@+id/textViewDescription"
