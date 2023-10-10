@@ -1,23 +1,19 @@
-package com.example.todo_app
+package com.example.todo_app.VIew
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todo_app.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import layout.Task
-import layout.TaskAdapter
-import java.io.BufferedReader
+import com.example.todo_app.Model.Task
 import java.io.File
-import java.io.FileWriter
 import java.io.IOException
-import java.io.InputStreamReader
+import android.view.View
+import android.widget.AdapterView
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,9 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         //Read list
         var x = FileHelper.readListFromFile(this, "daneListy")
-        //for (i in 0..x.size-1){
-            //taskList.add(Task(x[i].title, x[i].description, x[i].status))
-        //}
 
         var uncheckedTasks: List<Task> = emptyList()
         var checkedTasks:List<Task> = emptyList()
@@ -62,6 +55,37 @@ class MainActivity : AppCompatActivity() {
                 binding.etAdd.setText("")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sortOptions = listOf("Nazwa", "Data", "Ocena")
+        binding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = sortOptions[position]
+
+                // Tutaj obsłuż wybór użytkownika i wykonaj odpowiednie sortowanie
+                when (selectedItem) {
+                    "Nazwa" -> sortListByName()
+                    "Data" -> Log.d("myApp", "Data")
+                    "Ocena" -> Log.d("myApp", "Ocena")
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Obsłuż brak wyboru, jeśli to konieczne
+            }
+        }
+    }
+
+    fun sortListByName() {
+        taskList.sortBy { it.title }
+        //recyclerView
+        val recyclerView = binding.rv
+        val adapter = TaskAdapter(taskList)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onPause() {

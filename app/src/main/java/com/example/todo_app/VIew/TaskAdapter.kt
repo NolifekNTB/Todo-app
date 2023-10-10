@@ -1,11 +1,11 @@
-package layout
+package com.example.todo_app.VIew
 
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todo_app.databinding.ListItemBinding
+import com.example.todo_app.Model.Task
 
 
 class TaskAdapter(private val tasks: List<Task>) : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
@@ -25,8 +25,10 @@ class TaskAdapter(private val tasks: List<Task>) : RecyclerView.Adapter<TaskAdap
                     adapter.notifyItemMoved(bindingAdapterPosition, tasksList.size-1)
                 } else {
                     binding.cbTask.paintFlags = binding.cbTask.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    adapter.notifyItemMoved(bindingAdapterPosition, 0)
                 }
             }
+            binding.cbTask.onFocusChangeListener
 
         }
     }
